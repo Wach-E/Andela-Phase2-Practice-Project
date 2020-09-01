@@ -22,7 +22,7 @@ In this lab, you will learn how to perform the following tasks:
 
 3. Create a virtual machine which allows HTTP traffic:
 
-- Create a virtual machine in us-central1-a:
+- Create a virtual machine in the region **us-central1** and zone **us-central1-a**:
 
 ```
 gcloud compute instances create my-vm-1 --zone=us-central1-a --machine-type=n1-standard-1 \
@@ -41,7 +41,7 @@ gcloud compute firewall-rules create default-allow-http \
 
 4. Create another vm in the zone us-central1-b:
 
-- To display the zones for this region, enter the **gcloud compute zones list | grep** command followed by the region for creation:
+- To display the zones for this region, enter the **gcloud compute zones list | grep** command followed by the region for creation which, in case is **us-central1**:
 
 ```
 gcloud compute zones list | grep us-central1
