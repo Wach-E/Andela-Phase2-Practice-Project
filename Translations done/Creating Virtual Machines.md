@@ -52,10 +52,26 @@ gcloud compute instances describe wach-vm --zone=us-central1-c
 gcloud compute operations list --filter="zone:(us-central1-c)"
 ```
 
-6. To view the logs of your project, run:
+6. To view the logs of your VM:
+
+> View the logs of your project using:
 
 ```
 gcloud logging logs list
+```
+
+> Copy the logs of your VM instance into a textfile **content.txt** by running the following commands:
+
+```
+touch context.txt
+```
+
+```
+gcloud logging read "resource.type=gce_instance" > content.txt
+```
+
+```
+touch content.txt
 ```
 
 7. Create a VM instance that allows HTTP and HTTPS traffic:
