@@ -9,7 +9,8 @@ In this lab, you will replicate the operation of using Cloud Marketplace on the 
 | ----------- | ----------- |
 | Linux | Operating system |
 | Apache HTTP Server | Web server |
-| MySQL | Relational database |
+| MySQL Server | Relational Database Server |
+| MariaDB | Relational Database |
 | PHP | Web application framework |
 
 ## Objectives
@@ -84,7 +85,7 @@ CREATE DATABASE wach_db;
 GRANT ALL ON wach_db.* TO 'wach_user'@'localhost' IDENTIFIED BY 'donbliss' WITH GRANT OPTION;
 ```
 
-> This will give the example_user user full privileges over the example_database database, while preventing this user from creating or modifying other databases on your server.
+> This will give the wach_user user full privileges over the wach_db database, while preventing this user from creating or modifying other databases on your server.
 
 10. Flush the privileges to ensure that they are saved and available in the current session:
 
@@ -104,9 +105,9 @@ exit
 mariadb -u wach_user -p
 ```
 
-> Note the -p flag in this command, which will prompt you for the password used when creating the example_user user
+> Note the -p flag in this command, which will prompt you for the password used when creating the wach_user user
 
-13. After logging in to the MariaDB console, confirm that you have access to the example_database database:
+13. After logging in to the MariaDB console, confirm that you have access to the wach_db database:
 
 ```
 SHOW DATABASES;
@@ -130,7 +131,7 @@ SHOW DATABASES;
 exit
 ```
 
-14. Intsall PHP and its other dependencies by running:
+14. Intsall PHP and its dependencies by running:
 
 ```
 sudo apt install php libapache2-mod-php php-mysql
