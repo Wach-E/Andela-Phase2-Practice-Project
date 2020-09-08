@@ -137,9 +137,7 @@ exit
 sudo apt install php libapache2-mod-php php-mysql
 ```
 
-15. We want to tell the web server to prefer PHP files over others, so make Apache look for an index.php file first.
-
-To do this, type the following command to open the dir.conf file in a text editor with root privileges:
+15. We want to tell the web server to prefer PHP files over others, so make Apache look for an index.php file first. To do this, type the following command to open the dir.conf file in a text editor with root privileges:
 
 ```
 sudo nano /etc/apache2/mods-enabled/dir.conf
@@ -154,12 +152,14 @@ sudo nano /etc/apache2/mods-enabled/dir.conf
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 ```
 
-- Move the PHP index file (highlighted above) to the first position after the DirectoryIndex specification, like this:
+- Move the PHP index file to the first position after the DirectoryIndex specification, like this:
 
+```
 <IfModule mod_dir.c>
         DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
 </IfModule>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+```
 
 > Ctrl+O and Enter to save, Ctrl+X to exit
 
@@ -189,7 +189,7 @@ cd /var/www/html/
 sudo touch phpinfo.php
 ```
 
-- Paste some codes into the file:
+- Open the file using the nano editor and paste some codes into the file:
 
 ```
 sudo nano phpinfo.php
