@@ -63,7 +63,7 @@ gcloud logging logs list
 > Copy the logs of your VM instance into a textfile **content.txt** by running the following commands:
 
 ```
-touch context.txt
+touch content.txt
 ```
 
 ```
@@ -71,7 +71,7 @@ gcloud logging read "resource.type=gce_instance" > content.txt
 ```
 
 ```
-touch content.txt
+cat content.txt
 ```
 
 7. Create a VM instance that allows HTTP and HTTPS traffic:
