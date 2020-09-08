@@ -66,9 +66,13 @@ gcloud logging logs list
 touch content.txt
 ```
 
+- Read the logs of your VM and copy it to the file you just created:
+
 ```
 gcloud logging read "resource.type=gce_instance" > content.txt
 ```
+
+- Display the contents of the **content.txt** file:
 
 ```
 cat content.txt
@@ -135,7 +139,7 @@ gcloud compute instances create custom-instance --zone=us-west1-b \
 10. SSH into your custom VM by running:
 
 ```
-gcloud compute ssh custom-vm
+gcloud compute ssh custom-vm --zone us-west1-b
 ```
 
 11. To see information about unused and used memory and swap space on your custom VM, run the following command:
