@@ -40,7 +40,7 @@ gcloud compute instances create wach-vm --zone=us-central1-c --machine-type=n1-s
 gcloud compute zones describe us-central1-c --format="value(availableCpuPlatforms)"
 ```
 
-- To view the various CPU Platform that works on your VM, run:
+- To view the CPU Platform that is working on your VM, run:
 
 ```
 gcloud compute instances describe wach-vm --zone=us-central1-c
