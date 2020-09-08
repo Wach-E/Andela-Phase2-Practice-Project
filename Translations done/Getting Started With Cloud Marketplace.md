@@ -40,29 +40,141 @@ gcloud compute instances create lampstack-1 --zone=us-central1-a --machine-type=
 gcloud compute ssh lampstack-1 --zone=us-central1-a
 ```
 
-5. Install Apache2 and PHP on your instance:
+5. Install Apache2 on your instance:
 
 ```
 sudo apt-get update
 sudo apt-get install apache2
-sudo apt install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd \
-php-mbstring php-curl php-xml php-pear php-bcmath
 ```
 
-6. Start the Apache2 service:
-
-```
-sudo service apache2 start
-```
-
-7. Test Apache2 and PHP:
+- Test Apache2:
 
 ```
 http://[YOUR_EXTERNAL_IP_ADDRESS]
 ```
 > This will display the Apache2 default page
 
-8. Create a test file in the default web server root at /var/www/html/:
+6. Install mysql-server by running:
+
+```
+sudo apt-get install default-mysql-server
+```
+
+- To remove some insecure default settings and lock down access to your database system. Start the interactive script by running:
+
+```
+sudo mysql_secure_installation
+```
+
+7. The msql-server installed previously comes with MariaDB database. Log in to the MariaDB console by typing:
+
+```
+sudo mariadb
+```
+
+8. To create a new database, run the following command from your MariaDB console where **wach_db** is the name of the database:
+
+```
+CREATE DATABASE wach_db;
+```
+
+9. Now you can create a new user (**wach_user**) and grant them full privileges on the custom database you’ve just created. The following command defines this user’s password as **donbliss**, but you should replace this value with a secure password of your own choosing.
+
+```
+GRANT ALL ON wach_db.* TO 'wach_user'@'localhost' IDENTIFIED BY 'donbliss' WITH GRANT OPTION;
+```
+
+> This will give the example_user user full privileges over the example_database database, while preventing this user from creating or modifying other databases on your server.
+
+10. Flush the privileges to ensure that they are saved and available in the current session:
+
+```
+FLUSH PRIVILEGES;
+```
+
+11. Exit the MariaDB shell:
+
+```
+exit
+```
+
+12. You can test if the new user has the proper permissions by logging in to the MariaDB console again, this time using the custom user credentials:
+
+```
+mariadb -u wach_user -p
+```
+
+> Note the -p flag in this command, which will prompt you for the password used when creating the example_user user
+
+13. After logging in to the MariaDB console, confirm that you have access to the example_database database:
+
+```
+SHOW DATABASES;
+```
+
+> Your output should look like this:
+
+```
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| wach_db            |
++--------------------+
+2 rows in set (0.000 sec)
+```
+
+- Exit the MariaDB shell:
+
+```
+exit
+```
+
+14. Intsall PHP and its other dependencies by running:
+
+```
+sudo apt install php libapache2-mod-php php-mysql
+```
+
+15. We want to tell the web server to prefer PHP files over others, so make Apache look for an index.php file first.
+
+To do this, type the following command to open the dir.conf file in a text editor with root privileges:
+
+```
+sudo nano /etc/apache2/mods-enabled/dir.conf
+```
+
+> It should look like this:
+
+```
+<IfModule mod_dir.c>
+        DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+</IfModule>
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+```
+
+- Move the PHP index file (highlighted above) to the first position after the DirectoryIndex specification, like this:
+
+<IfModule mod_dir.c>
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+> Ctrl+O and Enter to save, Ctrl+X to exit
+
+16. Reload Apache’s configuration with:
+
+```
+sudo systemctl reload apache2
+```
+
+17. You can check on the status of the apache2 service with systemctl status:
+
+```
+sudo systemctl status apache2
+```
+
+18. Test the PHP Processing on your Web Server:
 
 - Change directory to /var/www/html/:
 
@@ -85,99 +197,21 @@ sudo nano phpinfo.php
 Paste this:
 
 ```
-<html>
- <head>
-  <title>PHP Test</title>
- </head>
- <body>
- <?php echo '<p>Hello World!!!</p>'; ?> 
- </body>
-</html>
+<?php
+phpinfo();
 ```
 
 > Press Ctr+O and Enter to save, press Ctrl+X to exit the editor
 
-9. Return to your root directory:
+19. Exit the SSH session:
 
 ```
-cd ~
+exit
 ```
 
-10. Open a new tab using your external IP address and confirm the details on the php info page:
+20. Open a new tab using your external IP address and confirm the details on the php info page:
 
 ```
 http://[YOUR_EXTERNAL_IP_ADDRESS]/phpinfo.php
 ```
 
-11. Install MySQL on your instance and start MySQL service:
-
-- Obtain Ubuntu updates
-```
-sudo apt-get update
-```
-
-- Install wget command on your VM:
-
-```
-sudo apt-get install wget
-```
-
-- Add the MSQL APT repo to your system's repo list:
-
-```
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
-```
-
-- Run the configuration package:
-
-```
-sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb
-```
-
-- Select the following options accordingly
-
-``` 
-1. Select 'MySql Server and Cluster' and press Enter
-2. Select 'mysql-5.7' and press Emter
-3. Select 'Ok' and press Enter
-```
-
-> This would configure mysql-server into your repository list
-
-- Update your repository list using the command:
-
-```
-sudo apt-get update
-```
-
-12. Install MySQL server:
-
-```
-sudo apt-get install mysql-server
-```
-
-> During the installation, MySQL will ask you to set a root password. If you miss the chance to set the password while the program is installing, it is very easy to set the password later from within the MySQL shell.
-
-- Start MySQL service
-```
-sudo service mysql start
-```
-
-- Finish up by running the MySQL set up script:
-
-```
-sudo mysql_secure_installation
-```
-
-> The prompt will ask you for your current root password. Type it in.
-
-> Then the prompt will ask you if you want to change the root password. Go ahead and choose N and move on to the next steps.
-
-> It’s easiest just to say Yes to all the options. At the end, MySQL will reload and implement the new changes.
-
-
-13. Finish up by restarting Apache2:
-
-```
-sudo service apache2 restart
-```
