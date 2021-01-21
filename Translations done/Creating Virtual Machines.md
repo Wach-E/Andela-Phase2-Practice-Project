@@ -18,10 +18,9 @@ In this lab, you learn how to perform the following tasks:
 
 2. Click on the Cloud shell icon to activate the web command line.
 
-![Select the Cloud Shell Icon](https://storage.googleapis.com/practise-test-cloud-shell-icon/personal%20shell%20stuff.png)
-- Click Continue
+![Select the Cloud Shell Icon](https://media.cloudbooklet.com/wp-content/uploads/2019/03/03055011/53650cb2-activate-cloud-shell.png)
 
-![Continue](https://storage.googleapis.com/practise-test-cloud-shell-icon/Continue.png)
+- Click Continue
 
 3. Create a virtual machine in the region **us-central1** and zone **us-central1-c** without an external IP using your name of choice:
 
